@@ -1,0 +1,9 @@
+client.key
+client.crt
+ca.crt
+*.pem
+*.key
+*.crt
+build/
+*.o
+a.out

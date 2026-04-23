@@ -1,0 +1,61 @@
+Trying port: 3336
+Connected on port: 3336
+
+<< HELO
+
+> > TOAKUEI
+
+<< POW abc123xyz 5
+Solving POW difficulty: 5
+Tried: 1000000
+Tried: 2000000
+
+> > Xk92ab
+
+<< NAME token123
+
+> > 7c4a8d09ca3762af61e59520943dc26494f8941b Sai Krishna Varanasi
+
+<< MAILNUM token456
+
+> > 9f86d081884c7d659a2feaa0c55ad015a3bf4f1b 2
+
+<< MAIL1 token789
+
+> > 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8 [vsaikrishna.1512@email.com](mailto:vsaikrishna.1512@email.com)
+
+<< MAIL2 token321
+
+> > 2fd4e1c67a2d28fced849ee1bb76e7391b93eb12 [vsaikrishna926@email.com](mailto:vsaikrishna926@email.com)
+
+<< SKYPE token654
+
+> > 6cb75f652a9b52798eb6cf2201057c73e067df0d N/A
+
+<< BIRTHDATE token111
+
+> > 356a192b7913b04c54574d18c28d46e6395428ab 25.03.1994
+
+<< COUNTRY token222
+
+> > da4b9237bacccdf19c0760cab7aec4a8359010b0 India
+
+<< ADDRNUM token333
+
+> > 77de68daecd823babbb58edb1c8e14d7106e83bb 2
+
+<< ADDRLINE1 token444
+
+> > 1b6453892473a467d07372d45eb05abc2031647a Dasari Srinivasa Nagar
+
+<< ADDRLINE2 token555
+
+> > ac3478d69a3c81fa62e60f5c3696165a4e7f8f90 Rajahmundry, Andhra Pradesh 533105
+
+<< END
+
+> > OK
+
+====================================
+APPLICATION SUBMITTED SUCCESSFULLY
+==================================
