@@ -22,11 +22,11 @@ This project demonstrates strong understanding of:
 
 Implements full SSL/TLS client communication using:
 
-* `SSL_connect()`
-* `SSL_CTX_new()`
-* `SSL_new()`
-* `SSL_read()`
-* `SSL_write()`
+* SSL_connect()
+  SSL_CTX_new()
+* SSL_new()
+* SSL_read()
+* SSL_write()
 
 ---
 
@@ -34,9 +34,9 @@ Implements full SSL/TLS client communication using:
 
 Both client and server verify each other using:
 
-* `client.crt`
-* `client.key`
-* `ca.crt`
+* client.crt
+* client.key
+* ca.crt
 
 This ensures strong two-way authentication.
 
@@ -62,14 +62,12 @@ This prevents:
 
 The client automatically attempts connection across multiple ports:
 
-text id="yyf91x"
 3336
 8083
 8446
 49155
 3481
 65532
-
 
 This improves:
 
@@ -83,11 +81,9 @@ This improves:
 
 Implements computational challenge solving:
 
-text id="mcbwwh"
 SHA1(authdata + suffix)
 
-
-until required leading zero difficulty is satisfied.
+until the required leading-zero difficulty is satisfied.
 
 This prevents:
 
@@ -101,7 +97,6 @@ This prevents:
 
 Each server challenge is answered using:
 
-text id="mtr0c7"
 SHA1(authdata + challenge)
 
 
@@ -145,11 +140,13 @@ This prevents:
 
 ## Project Structure
 
-text id="l3jnd1"
-exasol-assessment/
+exasol-cpp-ssl-client/
 │
 ├── main.cpp
 ├── README.md
+├── LICENSE
+├── .gitignore
+├── sample_output.txt
 │
 ├── docs/
 │   ├── architecture.md
@@ -158,8 +155,10 @@ exasol-assessment/
 │   ├── interview-notes.md
 │   └── troubleshooting.md
 │
-└── sample_output.txt
-
+└── diagrams/
+    ├── architecture-flow.png
+    ├── certificate-chain.png
+    └── TLS-Handshake-Flow.png
 
 ---
 
@@ -167,9 +166,9 @@ exasol-assessment/
 
 Private certificates and keys are intentionally excluded from this repository:
 
-* `client.key`
-* `client.crt`
-* `ca.crt`
+* client.key
+* client.crt
+* ca.crt
 
 These files must never be committed to GitHub.
 
@@ -179,7 +178,7 @@ They are sensitive security assets and should remain private.
 
 ## Key Security Learnings
 
-### Private keys must never be shared
+### Private Keys Must Never Be Shared
 
 Private keys are used for:
 
@@ -190,11 +189,11 @@ They must always remain secret.
 
 ---
 
-### Trust is placed on Root CA
+### Trust Is Placed on Root CA
 
 We trust:
 
-text id="iqj4ng"
+
 Root CA → Intermediate CA → Server Certificate
 
 
@@ -204,13 +203,11 @@ This is the foundation of certificate trust.
 
 ---
 
-### Hostname verification is mandatory
+### Hostname Verification Is Mandatory
 
 Even valid certificates must match:
 
-text id="t62vba"
 Certificate CN / SAN
-
 
 Otherwise attackers can misuse valid certificates.
 
@@ -220,11 +217,11 @@ Otherwise attackers can misuse valid certificates.
 
 Encryption provides:
 
-confidentiality
+**Confidentiality**
 
 Signing provides:
 
-identity + integrity
+**Identity + Integrity**
 
 This is a critical interview topic.
 
@@ -232,7 +229,7 @@ This is a critical interview topic.
 
 ## Sample Success Output
 
-text id="fj2tcl"
+
 Trying port: 3336
 Connected on port: 3336
 
@@ -250,7 +247,7 @@ Solving POW difficulty: 5
 ====================================
 APPLICATION SUBMITTED SUCCESSFULLY
 ====================================
-
+```
 
 ---
 
@@ -277,4 +274,3 @@ This project prepares for deep technical discussions on:
 C++ | Security | Backend | Distributed Systems | TLS Engineering
 
 ---
-
