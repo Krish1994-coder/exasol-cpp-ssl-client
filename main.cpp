@@ -3,6 +3,7 @@
 #include <openssl/ssl.h>
 
 #include <arpa/inet.h>
+#include <cstdint>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -12,10 +13,11 @@
 #include <vector>
 
 static const std::string HOST = "18.202.148.130";
+static const std::string VERIFY_HOSTNAME = "exatest.dynu.net";
 
 static const std::vector<int> PORTS = { 3336, 8083, 8446, 49155, 3481, 65532 };
 
-// ===== Replace these placeholders with your details =====
+// Replace these placeholders with your details
 static const std::string FULL_NAME = "Sai Krishna Varanasi";
 
 static const std::vector<std::string> EMAILS
@@ -27,7 +29,6 @@ static const std::string COUNTRY = "India";
 
 static const std::vector<std::string> ADDRESS_LINES
     = { "Dasari Srinivasa Nagar", "Rajahmundry, Andhra Pradesh 533105" };
-// =============================================================
 
 std::string
 sha1Hex (const std::string &input)
@@ -193,6 +194,26 @@ setSocketTimeout (int sock, int seconds)
     }
 }
 
+void
+cleanup (SSL *ssl, int sock, SSL_CTX *ctx)
+{
+  if (ssl)
+    {
+      SSL_shutdown (ssl);
+      SSL_free (ssl);
+    }
+
+  if (sock >= 0)
+    {
+      close (sock);
+    }
+
+  if (ctx)
+    {
+      SSL_CTX_free (ctx);
+    }
+}
+
 int
 main ()
 {
@@ -203,7 +224,7 @@ main ()
   SSL_CTX *ctx = nullptr;
   SSL *ssl = nullptr;
   int sock = -1;
-  SSL_CTX *ctx = SSL_CTX_new (TLS_client_method ());
+  ctx = SSL_CTX_new (TLS_client_method ());
 
   if (!ctx)
     {
@@ -211,9 +232,8 @@ main ()
       return 1;
     }
 
-  // =========================================================
   // USE ca.crt (recommended)
-  // =========================================================
+
 
   if (SSL_CTX_load_verify_locations (ctx, "ca.crt", nullptr) != 1)
     {
@@ -227,7 +247,6 @@ main ()
   // verify server certificate using ca.crt
   SSL_CTX_set_verify (ctx, SSL_VERIFY_PEER, nullptr);
 
-  // =========================================================
 
   // Load client certificate + private key
 
@@ -249,9 +268,8 @@ main ()
       return 1;
     }
 
-  // =========================================================
   // Multi-port fallback connection logic
-  // =========================================================
+
 
   bool connected = false;
 
@@ -300,11 +318,9 @@ main ()
 
   setSocketTimeout (sock, 6);
 
-  // =========================================================
   // TLS handshake
-  // =========================================================
 
-  SSL *ssl = SSL_new (ctx);
+  ssl = SSL_new (ctx);
 
   if (!ssl)
     {
@@ -314,15 +330,22 @@ main ()
     }
 
   // IMPORTANT:
-  SSL_set_tlsext_host_name (ssl, HOST.c_str ());
+  SSL_set_tlsext_host_name (ssl, VERIFY_HOSTNAME.c_str ());
 
   SSL_set1_host (ssl, VERIFY_HOSTNAME.c_str ());
-  SSL_set_fd (ssl, sock);
+  if (SSL_set_fd(ssl, sock) != 1)
+	{
+		std::cerr << "SSL_set_fd failed\n";
+		ERR_print_errors_fp(stderr);
+		cleanup(ssl, sock, ctx);
+		return 1;
+	}
 
   if (SSL_connect (ssl) <= 0)
     {
       std::cerr << "TLS connect failed\n";
       ERR_print_errors_fp (stderr);
+	  cleanup(ssl, sock, ctx);
       return 1;
     }
 
